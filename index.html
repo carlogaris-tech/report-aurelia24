@@ -3,200 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Report campagne social | Officina.tech</title>
-    <meta
-      name="description"
-      content="Pannello cliente per reportistica campagne social e integrazione Meta Ads API."
-    >
-    <link rel="icon" type="image/png" href="../favicon_OT.png">
-    <link rel="stylesheet" href="./styles.css">
-    <script src="./script.js" defer></script>
+    <title>Report social | Officina.tech</title>
+    <meta http-equiv="refresh" content="0; url=./area_clienti_social/">
+    <link rel="icon" type="image/png" href="./favicon_OT.png">
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #f7fbff;
+        background: #07111f;
+      }
+
+      a {
+        color: #c8ff63;
+      }
+    </style>
   </head>
   <body>
-    <main class="app-shell">
-      <aside class="sidebar" aria-label="Navigazione report social">
-        <a class="brand" href="../">
-          <img src="../favicon_OT.png" alt="Officina.tech">
-          <span>
-            <strong>Officina.tech</strong>
-            <small>Report social</small>
-          </span>
-        </a>
-
-        <nav>
-          <a class="is-active" href="#overview">Overview</a>
-          <a href="#consulta">Consulta per data</a>
-          <a href="#engagement">Engagement</a>
-          <a href="#campagne">Campagne</a>
-          <a href="#follower">Follower</a>
-        </nav>
-
-        <section class="access-card">
-          <span class="avatar" id="clientInitials">OT</span>
-          <div>
-            <strong id="accessClient">Cliente demo</strong>
-            <small>Accesso riservato</small>
-          </div>
-        </section>
-      </aside>
-
-      <section class="workspace">
-        <header class="topbar">
-          <div>
-            <p class="eyebrow">Report cliente</p>
-            <h1>Andamento campagne social</h1>
-            <p id="clientDescription">
-              Dati di andamento delle campagne Facebook e Instagram nel periodo selezionato.
-            </p>
-          </div>
-
-          <div class="top-actions">
-            <div class="fixed-client" aria-label="Cliente">
-              <span>Cliente</span>
-              <strong id="fixedClientName">Salottidea</strong>
-            </div>
-            <label>
-              Campagna
-              <select id="campaignSelect" aria-label="Seleziona campagna attiva"></select>
-            </label>
-            <label>
-              Vista rapida
-              <select id="periodSelect" aria-label="Seleziona periodo">
-                <option value="last_7d">Ultimi 7 giorni</option>
-                <option value="last_30d" selected>Ultimi 30 giorni</option>
-                <option value="this_month">Mese corrente</option>
-                <option value="last_month">Mese precedente</option>
-              </select>
-            </label>
-            <button class="primary-button" type="button" id="refreshData">Aggiorna dati</button>
-          </div>
-        </header>
-
-        <section class="date-query-panel" id="consulta" aria-label="Consulta dati per data">
-          <div>
-            <p class="eyebrow">Consulta per data</p>
-            <h2>Seleziona giorno o intervallo</h2>
-            <p>
-              Scegli una campagna per aprire automaticamente il mese collegato,
-              oppure usa le date per un controllo manuale.
-            </p>
-          </div>
-
-          <div class="date-controls">
-            <label>
-              Dal
-              <input id="dateFrom" type="date" min="2024-01-01" max="2026-07-24" aria-label="Data inizio">
-            </label>
-            <label>
-              Al
-              <input id="dateTo" type="date" min="2024-01-01" max="2026-07-24" aria-label="Data fine">
-            </label>
-            <button class="primary-button" type="button" id="applyDateFilter">
-              Applica filtro
-            </button>
-          </div>
-        </section>
-
-        <section class="status-strip" aria-label="Stato dati">
-          <div>
-            <span class="status-dot" id="connectionDot"></span>
-            <strong id="connectionLabel">Modalita demo</strong>
-            <small id="connectionDetail">Report dimostrativo con valori simulati.</small>
-          </div>
-          <div>
-            <strong id="updatedAt">-</strong>
-            <small>Ultimo aggiornamento</small>
-          </div>
-          <div>
-            <strong id="activeCampaigns">0</strong>
-            <small>Campagne attive</small>
-          </div>
-          <div>
-            <strong id="metaAccount">-</strong>
-            <small>Account pubblicitario</small>
-          </div>
-          <div>
-            <strong id="selectedRange">-</strong>
-            <small>Periodo consultato</small>
-          </div>
-        </section>
-
-        <section class="client-panel" id="overview">
-          <div class="panel-heading">
-            <p class="eyebrow">Sintesi</p>
-            <h2 id="clientTitle">Cliente</h2>
-          </div>
-
-          <div class="metric-grid" id="metricGrid"></div>
-        </section>
-
-        <section class="report-section">
-          <section class="panel" id="engagement">
-            <div class="panel-heading">
-              <p class="eyebrow">Engagement rate</p>
-              <h2>Interazioni sui contenuti</h2>
-            </div>
-            <div class="engagement-grid" id="engagementGrid"></div>
-          </section>
-        </section>
-
-        <section class="report-section">
-          <section class="panel" id="follower">
-            <div class="panel-heading">
-              <p class="eyebrow">Follower</p>
-              <h2>Nuovi follower e defollow giornalieri</h2>
-            </div>
-            <div class="follower-chart" id="followerChart" aria-label="Grafico follower per giorno"></div>
-          </section>
-        </section>
-
-        <section class="report-section">
-          <section class="panel" id="campagne">
-            <div class="panel-heading split">
-              <div>
-                <p class="eyebrow">Campagne</p>
-                <h2>Dettaglio performance</h2>
-              </div>
-              <button class="ghost-button" type="button" id="exportCsv">Esporta CSV</button>
-            </div>
-
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Campagna</th>
-                    <th>Obiettivo</th>
-                    <th>Spesa</th>
-                    <th>Reach</th>
-                    <th>CTR</th>
-                    <th>CPC</th>
-                    <th>Like</th>
-                    <th>Lead</th>
-                    <th>Stato</th>
-                  </tr>
-                </thead>
-                <tbody id="campaignTable"></tbody>
-              </table>
-            </div>
-          </section>
-        </section>
-
-        <section class="report-section">
-          <section class="panel" id="andamento">
-            <div class="panel-heading">
-              <p class="eyebrow">Andamento</p>
-              <h2>Trend giornaliero</h2>
-            </div>
-            <div class="chart-tabs" role="group" aria-label="Metrica grafico">
-              <button class="is-active" type="button" data-chart-metric="spend">Spesa</button>
-              <button type="button" data-chart-metric="clicks">Click</button>
-              <button type="button" data-chart-metric="likes">Like</button>
-              <button type="button" data-chart-metric="leads">Lead</button>
-            </div>
-            <div class="bar-chart" id="barChart" aria-label="Grafico andamento"></div>
-          </section>
-        </section>
-      </section>
-    </main>
+    <p>Accesso al report social... <a href="./area_clienti_social/">apri il pannello</a></p>
   </body>
 </html>
